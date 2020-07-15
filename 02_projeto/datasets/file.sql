@@ -1,0 +1,201 @@
+-- MySQL dump 10.13  Distrib 5.7.30, for Linux (x86_64)
+--
+-- Host: localhost    Database: igti
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.4.13-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `DEPARTAMENTO`
+--
+
+DROP TABLE IF EXISTS `DEPARTAMENTO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DEPARTAMENTO` (
+  `DNOME` varchar(15) NOT NULL,
+  `DNUMERO` int(11) NOT NULL,
+  `GERSSN` char(9) DEFAULT NULL,
+  `GERDATAINICIO` date DEFAULT NULL,
+  PRIMARY KEY (`DNUMERO`),
+  UNIQUE KEY `DNOME` (`DNOME`),
+  KEY `GERSSN` (`GERSSN`),
+  CONSTRAINT `DEPARTAMENTO_ibfk_1` FOREIGN KEY (`GERSSN`) REFERENCES `EMPREGADO` (`SSN`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DEPARTAMENTO`
+--
+
+LOCK TABLES `DEPARTAMENTO` WRITE;
+/*!40000 ALTER TABLE `DEPARTAMENTO` DISABLE KEYS */;
+INSERT INTO `DEPARTAMENTO` VALUES ('Headquarters',1,'888665555','1971-06-19'),('Administration',4,NULL,'1985-01-01'),('Research',5,NULL,'1978-05-22'),('Automation',7,NULL,'2006-10-05');
+/*!40000 ALTER TABLE `DEPARTAMENTO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DEPENDENTE`
+--
+
+DROP TABLE IF EXISTS `DEPENDENTE`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DEPENDENTE` (
+  `ESSN` char(9) NOT NULL,
+  `NOME_DEPENDENTE` varchar(15) NOT NULL,
+  `SEX` char(1) DEFAULT NULL,
+  `DATANASC` date DEFAULT NULL,
+  `PARENTESCO` varchar(8) DEFAULT NULL,
+  PRIMARY KEY (`ESSN`,`NOME_DEPENDENTE`),
+  CONSTRAINT `DEPENDENTE_ibfk_1` FOREIGN KEY (`ESSN`) REFERENCES `EMPREGADO` (`SSN`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DEPENDENTE`
+--
+
+LOCK TABLES `DEPENDENTE` WRITE;
+/*!40000 ALTER TABLE `DEPENDENTE` DISABLE KEYS */;
+/*!40000 ALTER TABLE `DEPENDENTE` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `DEPTO_LOCALIZACOES`
+--
+
+DROP TABLE IF EXISTS `DEPTO_LOCALIZACOES`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `DEPTO_LOCALIZACOES` (
+  `DNUMERO` int(11) NOT NULL,
+  `DLOCALIZACAO` varchar(15) NOT NULL,
+  PRIMARY KEY (`DNUMERO`,`DLOCALIZACAO`),
+  CONSTRAINT `DEPTO_LOCALIZACOES_ibfk_1` FOREIGN KEY (`DNUMERO`) REFERENCES `DEPARTAMENTO` (`DNUMERO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `DEPTO_LOCALIZACOES`
+--
+
+LOCK TABLES `DEPTO_LOCALIZACOES` WRITE;
+/*!40000 ALTER TABLE `DEPTO_LOCALIZACOES` DISABLE KEYS */;
+INSERT INTO `DEPTO_LOCALIZACOES` VALUES (1,'Houston'),(4,'Stafford'),(5,'Bellaire'),(5,'Houston'),(5,'Sugarland');
+/*!40000 ALTER TABLE `DEPTO_LOCALIZACOES` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `EMPREGADO`
+--
+
+DROP TABLE IF EXISTS `EMPREGADO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `EMPREGADO` (
+  `PNOME` varchar(15) NOT NULL,
+  `MINICIAL` char(1) DEFAULT NULL,
+  `UNOME` varchar(15) NOT NULL,
+  `SSN` char(9) NOT NULL,
+  `DATANASC` date DEFAULT NULL,
+  `ENDERECO` varchar(30) DEFAULT NULL,
+  `SEXO` char(1) DEFAULT NULL,
+  `SALARIO` decimal(10,2) DEFAULT NULL,
+  `SUPERSSN` char(9) DEFAULT NULL,
+  `DNO` int(11) DEFAULT NULL,
+  PRIMARY KEY (`SSN`),
+  KEY `SUPERSSN` (`SUPERSSN`),
+  KEY `DNO` (`DNO`),
+  CONSTRAINT `EMPREGADO_ibfk_1` FOREIGN KEY (`SUPERSSN`) REFERENCES `EMPREGADO` (`SSN`),
+  CONSTRAINT `EMPREGADO_ibfk_2` FOREIGN KEY (`DNO`) REFERENCES `DEPARTAMENTO` (`DNUMERO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `EMPREGADO`
+--
+
+LOCK TABLES `EMPREGADO` WRITE;
+/*!40000 ALTER TABLE `EMPREGADO` DISABLE KEYS */;
+INSERT INTO `EMPREGADO` VALUES ('John','B','Smith','123456789','1955-01-09','731 Fondren, Houston, TX','M',30000.00,'987654321',5),('Franklin','T','Wong','333445555','1945-12-08','638 Voss, Houston, TX','M',40000.00,'888665555',5),('Joyce','A','English','453453453','1962-12-31','5631 Rice, Houston, TX','F',25000.00,'333445555',5),('Ramesh','K','Narayan','666884444','1952-09-15','Fire Oak, Humble, TX','M',38000.00,'333445555',5),('James','E','Borg','888665555','1927-11-10','Stone, Houston, TX','M',55000.00,NULL,1),('Jennifer','S','Wallace','987654321','1931-06-20','Berry, Bellaire, TX','F',43000.00,'888665555',4),('Ahmad','V','Jabbar','987987987','1959-03-29','Dallas, Houston, TX','M',25000.00,'987654321',4),('Alicia','J','Zelaya','999887777','1958-06-19','Castle, SPring, TX','F',25000.00,'987654321',4);
+/*!40000 ALTER TABLE `EMPREGADO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `PROJETO`
+--
+
+DROP TABLE IF EXISTS `PROJETO`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `PROJETO` (
+  `PJNOME` varchar(15) NOT NULL,
+  `PNUMERO` int(11) NOT NULL,
+  `PLOCALIZACAO` varchar(15) DEFAULT NULL,
+  `DNUM` int(11) NOT NULL,
+  PRIMARY KEY (`PNUMERO`),
+  UNIQUE KEY `PJNOME` (`PJNOME`),
+  KEY `DNUM` (`DNUM`),
+  CONSTRAINT `PROJETO_ibfk_1` FOREIGN KEY (`DNUM`) REFERENCES `DEPARTAMENTO` (`DNUMERO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `PROJETO`
+--
+
+LOCK TABLES `PROJETO` WRITE;
+/*!40000 ALTER TABLE `PROJETO` DISABLE KEYS */;
+INSERT INTO `PROJETO` VALUES ('ProductX',1,'Bellaire',5),('ProductY',2,'Sugarland',5),('ProductZ',3,'Houston',5),('Computerization',10,'Stafford',4),('Reorganization',20,'Houston',1),('Newbenefits',30,'Stafford',4);
+/*!40000 ALTER TABLE `PROJETO` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TRABALHA_EM`
+--
+
+DROP TABLE IF EXISTS `TRABALHA_EM`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TRABALHA_EM` (
+  `ESSN` char(9) NOT NULL,
+  `PNO` int(11) NOT NULL,
+  `HORAS` decimal(3,1) NOT NULL,
+  PRIMARY KEY (`ESSN`,`PNO`),
+  KEY `PNO` (`PNO`),
+  CONSTRAINT `TRABALHA_EM_ibfk_1` FOREIGN KEY (`ESSN`) REFERENCES `EMPREGADO` (`SSN`),
+  CONSTRAINT `TRABALHA_EM_ibfk_2` FOREIGN KEY (`PNO`) REFERENCES `PROJETO` (`PNUMERO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TRABALHA_EM`
+--
+
+LOCK TABLES `TRABALHA_EM` WRITE;
+/*!40000 ALTER TABLE `TRABALHA_EM` DISABLE KEYS */;
+INSERT INTO `TRABALHA_EM` VALUES ('123456789',1,32.5),('123456789',2,7.5),('333445555',2,10.0),('333445555',3,10.0),('333445555',10,10.0),('333445555',20,10.0),('453453453',1,20.0),('453453453',2,20.0),('666884444',3,40.0),('888665555',20,0.0),('987654321',20,15.0),('987654321',30,20.0),('987987987',10,35.0),('987987987',30,5.0),('999887777',10,10.0),('999887777',30,30.0);
+/*!40000 ALTER TABLE `TRABALHA_EM` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-07-14 22:04:05
