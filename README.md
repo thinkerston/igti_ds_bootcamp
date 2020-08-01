@@ -13,10 +13,10 @@ Esse repositório tem o intuito de ajudar quem está tendo dificuldade, e també
 
   - [Atividade 01](https://github.com/thinkerston/igti_ds_bootcamp/blob/master/04_Projeto/Collect_data_twitter.ipynb)
   
-    Coleta de tweets do Twitter usando as keywors ['home office', 'trabalho remoto', '#homeoffice', '#trabalhoremoto']
+    Coleta de tweets do Twitter usando as keywords `['home office', 'trabalho remoto', '#homeoffice', '#trabalhoremoto']`
 
   - [Atividade 02](https://github.com/thinkerston/igti_ds_bootcamp/blob/master/04_Projeto/sentiment_analysis.ipynb)
     
     Analise de sentimentos usando os dados coletados
 
-Caso tenha alguma duvida, ou alguma sugestão [pode me chamar no Linkedin: Julio Santos](https://www.linkedin.com/in/thinkerston/)
+Caso tenha alguma duvida, ou alguma sugestão [pode me chamar no Linkedin: Julio Santos](https://bit.ly/2OfWEbT)
